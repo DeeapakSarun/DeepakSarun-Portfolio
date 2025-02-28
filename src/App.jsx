@@ -1,19 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import deepakSvg from '/deepak.svg'
-import './App.css'
+import './styles/App.css'
+import Navbar from './components/Navbar';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/src/ScrollTrigger';
+import { useRef, useEffect } from 'react';
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div className='mainBlock'>
-        <a href="https://vite.dev" target="_blank">
-          <img src={deepakSvg} className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <h1>Deepak Sarun</h1>
+    <div className='content'>
+      <nav className='nav'>
+        <Navbar></Navbar>
+      </nav>
+      <section>
+        <div className="section1">
+          <h1>Section 1</h1>
+        </div>
+        <div className="section2">
+          <h1>Section 2</h1>
+        </div>
+        <div className="section3">
+          <h1>Section 3</h1>
+        </div>
+        <div className="section4">
+          <h1>Section 4</h1>
+        </div>
+        <div className="section5">
+          <h1>Section 5</h1>
+        </div>
+      </section>
+    </div>
+
+
     </>
   )
 }
