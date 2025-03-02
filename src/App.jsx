@@ -1,4 +1,3 @@
-import deepakSvg from '/deepak.svg'
 import './styles/App.css'
 import Navbar from './components/Navbar';
 import gsap from 'gsap';
@@ -31,21 +30,7 @@ function App() {
               minFontSize={50}
           />
         </div>
-        <div className="section2">
-          <h1>Section 2</h1>
-        </div>
-        <div className="section3">
-          <h1>Section 3</h1>
-        </div>
-        <div className="section4">
-          <h1>Section 4</h1>
-        </div>
-        <div className="section5">
-          <div className="AvatarContainer">
-          <img className="Avatar" src="public/deepak.png" alt="deepakLogo" />
-          </div>
-          <h1>Section 5</h1>
-        </div>
+
       </section>
     </div>
 
