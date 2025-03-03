@@ -18,7 +18,7 @@ const TextPressure = ({
   strokeColor = '#FF0000',
   className = '',
 
-  minFontSize = 24,
+  minFontSize = '',
 
 }) => {
   const containerRef = useRef(null);
@@ -37,7 +37,7 @@ const TextPressure = ({
   const dist = (a, b) => {
     const dx = b.x - a.x;
     const dy = b.y - a.y;
-    return Math.sqrt(dx * dx + dy * dy);
+    return Math.sqrt(dx * dx + dy * dy );
   };
 
   useEffect(() => {

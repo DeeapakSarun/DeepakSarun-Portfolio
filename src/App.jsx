@@ -26,8 +26,8 @@ function App() {
               weight={true}
               italic={false}
               textColor="#ffffff"
-              strokeColor="#ff0000"
-              minFontSize={50}
+              strokeColor="#ff5733"
+              minFontSize={70}
           />
         </div>
 
