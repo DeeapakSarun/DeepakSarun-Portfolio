@@ -4,31 +4,14 @@
   box-sizing: border-box;
 }
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  height: 100vh;
+  height: 100dvh;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: #020202;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font-size: calc(24px + 6vw);
-}
-
-h2 {
-  font-size: calc(20px + 3vw);
-}
-
-h3 {
-  font-size: calc(16px + 2vw);
-}
-
-p {
-  font-family: Roboto;
-  font-size: calc(10px + 1vw);
-}

@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+.landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    color: #fff;
+    background-color: #000;
+    text-align: center;
+    overflow: hidden;
+    position: absolute;
+    animation: fadeOut 2s ease-in-out 5.5s forwards;
+    z-index: 100;
+}
+
+.word {
+    font-family: 'Great Vibes', cursive;
+    font-size: 5rem;
+    font-weight: 700;
+    letter-spacing: 2px;  /* Slightly wider letters for Instagram feel */
+    position: absolute;
+    opacity: 0;
+    text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Instagram Word Styling */
+.instagram {
+    background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); /* Instagram's signature gradient */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: slideInLeft 3s forwards;
+    filter: drop-shadow(0 0 5px rgba(255, 101, 132, 0.8)); /* Soft pink glow */
+}
+
+/* Portfolio Word Styling */
+.portfolio {
+    background: linear-gradient(135deg, #ff9a9e, #ff8b80, #ffd992);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    animation: slideInRight 3s forwards;
+    filter: drop-shadow(0 0 5px rgba(250, 165, 91, 0.8)); /* Orange glow */
+}
+
+
+
+/* Author Text */
+.author {
+    display: flex;
+    flex-direction: column;
+    gap:10%;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #e3e3e3;
+    position: absolute;
+    font-weight: 800;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 5%;
+    opacity: 0;
+    animation: fadeIn 2.5s 2.5s forwards;
+}
+
+.by {
+    font-weight: 100;
+    font-size: medium;
+    font-style: italic;
+    margin-bottom: 10%;
+}
+.name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #000000,#ffffff, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: metallicShine 3s infinite linear;
+
+}
+
+/* Animations */
+@keyframes slideInLeft {
+    from { transform: translateX(-1000%); opacity: 0; }
+    to { transform: translateX(-4%); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(1000%); opacity: 0; }
+    to { transform: translateX(4%); opacity: 1; }
+}
+
+@keyframes fadeInCenter {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; display: none; }
+}
+
+/* Collision Effect - Letters Fade Out */
+.fade-out {
+    animation: disappear 1s 1.5s forwards;
+}
+
+@keyframes disappear {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(2.5); }
+    100% { opacity: 0; transform: scale(1); }
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 480px) {
+    .word {
+        font-size: 3rem;
+    }
+
+    .author {
+        font-size: 1rem;
+    }
+}
+
+
+@keyframes metallicShine {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
