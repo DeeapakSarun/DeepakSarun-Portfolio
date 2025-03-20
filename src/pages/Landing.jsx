@@ -37,7 +37,6 @@ const Landing = () => {
                     ))}
                 </div>
 
-                <div className="word instafolio">Instafolio</div>
                 <div className="author"><span className='by'>By</span> <span className='name'>Deepak Sarun</span></div>
             </div>
         )
