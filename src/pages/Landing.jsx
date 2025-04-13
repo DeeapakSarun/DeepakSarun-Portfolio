@@ -1,16 +1,34 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Pages/Landing.css';
 
 const Landing = () => {
     const [showLanding, setShowLanding] = useState(true);
+    const navigate = useNavigate();
+    const location = useLocation(); // This gives you the current location path
+    const currentRoute = sessionStorage.getItem('currentRoute'); // Get the stored route from sessionStorage
 
     const instagram = "Instagram".split('');
     const portfolio = "Portfolio".split('');
 
     useEffect(() => {
-        const timer = setTimeout(() => setShowLanding(false), 6000); // Full animation time
-        return () => clearTimeout(timer);
-    }, []);
+        // Store the current route in sessionStorage
+        sessionStorage.setItem('currentRoute', location.pathname);
+
+        // Check if the current route is the same as the stored route and trigger redirection
+        if (currentRoute === location.pathname) {
+            
+            const timer = setTimeout(() => {
+                setShowLanding(false);
+                navigate('/');
+                  // Redirect to the home page after the animation
+            }, 4000); // Full animation time
+
+            return () => clearTimeout(timer);
+        } else {
+            setShowLanding(false); // Skip animation if route doesn't match
+        }
+    }, [location, navigate, currentRoute]);
 
     return (
         showLanding && (

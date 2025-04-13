@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 
 import Profile from './pages/Profile';
@@ -22,8 +24,9 @@ const App = () => {
     return (
       <>
         <div className='container'>
-          <Landing/>
+          
           <Router>
+            <Landing/>
             <Header/>
             <Navbar />
             <main>

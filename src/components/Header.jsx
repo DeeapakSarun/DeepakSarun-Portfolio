@@ -31,7 +31,7 @@ const Header = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/Message">
+                            <Link to="/FAQ">
                                 <MessageCircleQuestion />
                             </Link>
                         </li>
@@ -40,7 +40,7 @@ const Header = () => {
         );
     }
 
-    if (['/Message', '/Resume', '/StopForAGame', '/CopyRight', '/Likes'].includes(location.pathname)) {
+    if (['/Message', '/Resume', '/StopForAGame', '/CopyRight', '/Likes', '/FAQ'].includes(location.pathname)) {
         return (
             <div className="header">
                 {/* Show <Link> or <div> based on pathname */}

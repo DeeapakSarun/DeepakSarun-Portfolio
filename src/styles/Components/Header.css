@@ -10,8 +10,9 @@
     height:10dvh;
     min-height: 50px;
     max-height: 100px;
-    
     z-index: 1;
+    border-bottom: 1px solid #2c2c2c;
+
 }
 .instafolio {
     background: linear-gradient(135deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); /* Instagram's signature gradient */
