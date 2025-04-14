@@ -32,7 +32,7 @@ const Profile = () => {
     slidesToScroll: 1,
     speed: 1000,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 1000,
     arrows: false, // No arrows
     dots: true,    // Dots for navigation
     cssEase: 'ease-in-out', // Smooth easing effect
