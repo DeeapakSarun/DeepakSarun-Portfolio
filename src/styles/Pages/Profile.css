@@ -1,20 +1,25 @@
 /* Profile Page Layout */
 .profile-container {
-    width: 97%;
+    width: 100%;
     margin: 0 auto;
     font-family: Arial, sans-serif;
+
   }
   
   .profile-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-top: 20px;
+    width: 100%;
     padding-bottom: 5px;
   }
   
   .profile-pic {
     width: 150px;
     height: 150px;
+    object-fit: cover;
+    border: 2px solid #000000;
     border-radius: 50%;
     margin-right: 20px;
   }
@@ -51,7 +56,7 @@
   
   /* Skills Carousel Section */
   .skills-carousel {
-    margin: 20px 0;
+    margin: 10px 0;
     text-align: center;
   }
   
@@ -70,8 +75,8 @@
   }
   
   .skill-logo {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 8px;
@@ -79,7 +84,8 @@
   
   .highlight p {
     font-size: 14px;
-    color: #333;
+    font-weight: 900;
+    color: #cdcdcd;
     margin-top: 5px;
   }
   
@@ -87,13 +93,12 @@
   .post-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-top: 30px;
+    gap: 1px;
+    margin-top: 15px;
   }
   
   .post-item {
-    overflow: hidden;
-    border-radius: 10px;
+    overflow: scroll;
   }
   
   .post-image {
@@ -103,3 +108,21 @@
     display: block;
   }
   
+    /* Media Queries */
+
+    /* Mobile Styles */
+@media (max-width: 768px) {
+
+    .profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+    .skill-logo{
+        width: 50px;
+        height: 50px;
+    }
+
+    .highlight p {
+        font-size: 0.6rem;
+    }
+}

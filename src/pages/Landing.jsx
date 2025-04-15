@@ -21,6 +21,7 @@ const Landing = () => {
             const timer = setTimeout(() => {
                 setShowLanding(false);
                 navigate('/');
+                document.body.style.overflow = 'visible'; // Prevent scrolling during animation
                   // Redirect to the home page after the animation
             }, 4000); // Full animation time
 
@@ -28,7 +29,7 @@ const Landing = () => {
         } else {
             setShowLanding(false); // Skip animation if route doesn't match
         }
-    }, [location, navigate, currentRoute]);
+    });
 
     return (
         showLanding && (

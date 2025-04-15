@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
+body{
+    height: 100%;
+    overflow: hidden;
+    margin: 0%;
+}
 .landing-container {
     display: flex;
     flex-direction: column;
@@ -10,8 +15,9 @@
     color: #fff;
     background-color: #000;
     text-align: center;
-    overflow: hidden;
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     animation: fadeOut 1s ease-in 4s forwards;
     z-index: 100;
 }
@@ -130,7 +136,7 @@
     to{opacity:0;}
 }
 /* Media Query for Smaller Screens */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .instagram, .portfolio {
         padding: 0;
     }
@@ -140,6 +146,10 @@
 
     .author {
         font-size: 10px;
+    }
+    .landing-container{
+        height: 100dvh;
+        width:100%;
     }
 }
 

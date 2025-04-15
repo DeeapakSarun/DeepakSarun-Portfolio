@@ -4,7 +4,7 @@
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
-    max-width: 1200px; 
+    max-width: 1000px; 
     background-color: #000;
     display: flex;
     justify-content: space-around;
@@ -12,8 +12,8 @@
     padding: 10px 0;
     height:10vh;
     min-height: 50px;
-    max-height: 100px;
-    z-index: 1;
+    max-height: 80px;
+    z-index: 1 ;
     border-top: 1px solid #2c2c2c;
 }
 

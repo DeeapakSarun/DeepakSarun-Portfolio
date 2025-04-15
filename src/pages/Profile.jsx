@@ -5,23 +5,23 @@ import '../styles/Pages/Profile.css'; // Import the CSS file
 // Skills for Carousel
 const skills = [
   { name: "Java", logo: "/assets/java.png" },
-  { name: "Python", logo: "/assets/python-logo.png" },
-  { name: "React", logo: "/assets/react-logo.png" },
-  { name: "SQL", logo: "/assets/sql-logo.png" },
-  { name: "JavaScript", logo: "/assets/js-logo.png" },
-  { name: "HTML", logo: "/assets/html-logo.png" },
-  { name: "CSS", logo: "/assets/css-logo.png" },
-  { name: "Node.js", logo: "/assets/node-logo.png" }
+  { name: "Python", logo: "/assets/python.png" },
+  { name: "React", logo: "/assets/react.png" },
+  { name: "MySQL", logo: "/assets/sql.png" },
+  { name: "JavaScript", logo: "/assets/js.png" },
+  { name: "HTML", logo: "/assets/html.png" },
+  { name: "CSS", logo: "/assets/css.png" },
+  { name: "Node.js", logo: "/assets/node.png" }
 ];
 
 // Sample Posts for Feed
 const posts = [
-  { id: 1, image: "/assets/post1.jpg" },
-  { id: 2, image: "/assets/post2.jpg" },
-  { id: 3, image: "/assets/post3.jpg" },
-  { id: 4, image: "/assets/post4.jpg" },
-  { id: 5, image: "/assets/post5.jpg" },
-  { id: 6, image: "/assets/post6.jpg" },
+  { id: 1, image: "/assets/profile.jpg" },
+  { id: 2, image: "/assets/deepak.png" },
+  { id: 3, image: "/assets/profile.jpg" },
+  { id: 4, image: "/assets/deepak.png" },
+  { id: 5, image: "/assets/profile.jpg" },
+  { id: 6, image: "/assets/deepak.png" },
 ];
 
 const Profile = () => {
@@ -29,13 +29,13 @@ const Profile = () => {
   const settings = {
     infinite: true,
     slidesToShow: 5,
-    slidesToScroll: 1,
-    speed: 1000,
+    slidesToScroll: skills.length*3,
+    speed: 20000,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 0,
     arrows: false, // No arrows
     dots: true,    // Dots for navigation
-    cssEase: 'ease-in-out', // Smooth easing effect
+    cssEase: 'linear', // Smooth easing effect
   };
 
   return (
