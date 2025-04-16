@@ -44,7 +44,8 @@ var currentIndex = 0;
             <div className="content">
                 <div className="profile">
                     <img src="/assets/profile.jpg" alt="Profile" className="profile-pic" />
-                    <h1
+                    <h1 
+                        className="name"
                         style={{
                             fontFamily: name.font, 
                         }}

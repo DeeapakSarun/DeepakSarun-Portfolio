@@ -48,7 +48,7 @@ const Profile = () => {
           className="profile-photo"
         />
         <div className="profile-info">
-          <h1>@yourusername</h1>
+          <h1 className='username'><a href="https://www.instagram.com/_deeksaru__/">@_deeksaru__</a></h1>
           <p>DEEPAK SARUN</p>
           <p>Web Developer | Tech Enthusiast</p>
           <div className="profile-stats">

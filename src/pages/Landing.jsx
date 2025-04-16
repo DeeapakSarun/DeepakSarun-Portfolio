@@ -15,8 +15,8 @@ const Landing = () => {
         // Store the current route in sessionStorage
         sessionStorage.setItem('currentRoute', location.pathname);
 
-        // Check if the current route is the same as the stored route and trigger redirection
-        if (currentRoute === location.pathname) {
+        // 
+        if (currentRoute === location.pathname || location.pathname === '/') {
             
             const timer = setTimeout(() => {
                 setShowLanding(false);
