@@ -12,23 +12,16 @@
   background-color: black;
   min-height: 100vh;
   height: fit-content;
-  max-width: 1000px; 
+  max-width: 1200px; 
   position: relative;
   margin: 0 auto;
   padding-bottom:80px;
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: 2000px) {
   .container {
-    width: 100%;
-  }
-}
-
-/* large screens*/
-@media (min-width: 1500px) {
-  .container {
-    width: 1200px;
+    width: 900px;
     min-height: 100vh;
     height: fit-content;
   }

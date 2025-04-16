@@ -24,7 +24,7 @@ body{
 
 .word {
     font-family: 'Great Vibes', cursive;
-    font-size: 5rem;
+    font-size: calc(32px + (1dvh)*2 + 1vw*2);
     font-weight: 700;
     letter-spacing: 2px;  /* Slightly wider letters for Instagram feel */
     position: absolute;
@@ -139,9 +139,6 @@ body{
 @media (max-width: 600px) {
     .instagram, .portfolio {
         padding: 0;
-    }
-    .word {
-        font-size: 2.5rem;
     }
 
     .author {

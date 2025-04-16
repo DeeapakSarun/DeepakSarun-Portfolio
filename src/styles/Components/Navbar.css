@@ -4,7 +4,7 @@
     width: 100%;
     left: 50%;
     transform: translateX(-50%);
-    max-width: 1000px; 
+    max-width: 1200px; 
     background-color: #000;
     display: flex;
     justify-content: space-around;
@@ -57,3 +57,18 @@
     transform: scale(1.1);
     transition: transform 0.2s ease;
 }
+
+
+@media (max-width: 2000px) {
+    .navbar {
+      width: 900px;
+    }
+  }
+  
+  
+  @media (max-width: 768px) {
+    .navbar {
+      width: 100%;
+    }
+  }
+  

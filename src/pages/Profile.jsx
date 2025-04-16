@@ -4,14 +4,14 @@ import '../styles/Pages/Profile.css'; // Import the CSS file
 
 // Skills for Carousel
 const skills = [
-  { name: "Java", logo: "/assets/java.png" },
-  { name: "Python", logo: "/assets/python.png" },
-  { name: "React", logo: "/assets/react.png" },
-  { name: "MySQL", logo: "/assets/sql.png" },
-  { name: "JavaScript", logo: "/assets/js.png" },
-  { name: "HTML", logo: "/assets/html.png" },
-  { name: "CSS", logo: "/assets/css.png" },
-  { name: "Node.js", logo: "/assets/node.png" }
+  { name: "Java", logo: "/assets/skill/java.png" },
+  { name: "Python", logo: "/assets/skill/python.png" },
+  { name: "React", logo: "/assets/skill/react.png" },
+  { name: "MySQL", logo: "/assets/skill/sql.png" },
+  { name: "JavaScript", logo: "/assets/skill/js.png" },
+  { name: "HTML", logo: "/assets/skill/html.png" },
+  { name: "CSS", logo: "/assets/skill/css.png" },
+  { name: "Node.js", logo: "/assets/skill/node.png" }
 ];
 
 // Sample Posts for Feed
@@ -29,10 +29,10 @@ const Profile = () => {
   const settings = {
     infinite: true,
     slidesToShow: 5,
-    slidesToScroll: skills.length*3,
-    speed: 20000,
+    slidesToScroll: skills.length,
+    speed: 40000,
     autoplay: true,
-    autoplaySpeed: 0,
+    autoplaySpeed: 500,
     arrows: false, // No arrows
     dots: true,    // Dots for navigation
     cssEase: 'linear', // Smooth easing effect
@@ -45,7 +45,7 @@ const Profile = () => {
         <img
           src="/assets/profile.jpg"  // Using image from public/assets folder
           alt="Profile"
-          className="profile-pic"
+          className="profile-photo"
         />
         <div className="profile-info">
           <h1>@yourusername</h1>
