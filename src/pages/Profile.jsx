@@ -29,13 +29,14 @@ const Profile = () => {
   const settings = {
     infinite: true,
     slidesToShow: 5,
-    slidesToScroll: skills.length,
-    speed: 40000,
+    slidesToScroll: 1,
+    speed: 3000,
     autoplay: true,
     autoplaySpeed: 500,
     arrows: false, // No arrows
-    dots: true,    // Dots for navigation
-    cssEase: 'linear', // Smooth easing effect
+    dots: false, // No dots
+    pauseOnHover: false, // No pause on hover
+    cssEase: 'ease-in-out', // Smooth easing effect
   };
 
   return (
@@ -48,7 +49,7 @@ const Profile = () => {
           className="profile-photo"
         />
         <div className="profile-info">
-          <h1 className='username'><a href="https://www.instagram.com/_deeksaru__/">@_deeksaru__</a></h1>
+          <h1 className='username'><a className="usernamelink" href="https://www.instagram.com/_deeksaru__/">@_deeksaru__</a></h1>
           <p>DEEPAK SARUN</p>
           <p>Web Developer | Tech Enthusiast</p>
           <div className="profile-stats">

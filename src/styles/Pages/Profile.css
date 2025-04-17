@@ -30,11 +30,32 @@
     flex: 1;
   }
   
-  .profile-info .username {
-    font-size: 24px;
+  .profile-info .usernamelink {
+    font-size: calc(20px + 1dvh * 0.5 + 1vw * 0.5);
+    font-weight: bold;
     margin: 0;
   }
   
+  .usernamelink {
+    color: transparent;
+    background: linear-gradient(60deg, #bababa, #bbbbbb, #ffffff,#ffffff, #afafaf, #b0b0b0);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    animation: metallic-shine 10s infinite ease-in-out;
+  }
+  .usernamelink:hover {
+    color: #9898987a;
+    background: linear-gradient(60deg, #b1b1b1, #ffffff, #000000,#ffffff, #4b4b4b, #b5b5b5);
+    background-size: 200% 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    transition: color 0.3s ease;
+    text-decoration: none;
+    animation: metallic-shine 10s infinite ease-in-out;
+  }
   .profile-info p {
     margin: 5px 0;
     font-size: 14px;
