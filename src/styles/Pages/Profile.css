@@ -48,7 +48,7 @@
   }
   .usernamelink:hover {
     color: #9898987a;
-    background: linear-gradient(60deg, #b1b1b1, #ffffff, #000000,#ffffff, #4b4b4b, #b5b5b5);
+    background: linear-gradient(60deg, #b3b2b2, #ffffff, #000000,#ffffff, #4b4b4b, #b5b5b5);
     background-size: 200% 200%;
     background-clip: text;
     -webkit-background-clip: text;
