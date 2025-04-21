@@ -42,11 +42,21 @@
     text-decoration: none;
 }
 
-.navbar-links a svg {
+.navbar-links a svg  {
     width: calc(10px + 1vw*0.5 + 1vh);
     height: auto;
 }
 
+.icon {
+    width: calc(24px + 1vw*0.5 + 1vh);
+    border-radius: 50%;
+    object-fit: cover;
+    height: calc(24px + 1vw*0.5 + 1vh);
+}
+
+.icon:active{
+    border:#fff 2px solid;
+}
 .active svg {
     fill: white !important;
     stroke: white !important;

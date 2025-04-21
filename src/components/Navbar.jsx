@@ -32,7 +32,7 @@ const Navbar = () => {
                         </li>
                         <li className={location.pathname === '/' ? 'active' : ''}>
                             <Link to="/">
-                                <User />
+                                <img  className="icon" src="./assets/profile.jpg" alt="profileIcon" />
                             </Link>
                         </li>
                     </ul>
