@@ -89,6 +89,7 @@
     border-radius: 25px;
     cursor: pointer;
     min-width: max-content;
+    font-weight: bolder;
     width: 20%;
     text-align: center;
   }
