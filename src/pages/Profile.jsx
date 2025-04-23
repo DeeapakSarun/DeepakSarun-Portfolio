@@ -53,9 +53,9 @@ const Profile = () => {
           <p>DEEPAK SARUN</p>
           <p>Web Developer | Tech Enthusiast</p>
           <div className="profile-stats">
-            <span>25 posts</span>
-            <span>368 followers</span>
-            <span>528 following</span>
+            <p>3   <span>Hacks</span></p>
+            <p>5+  <span>Projects</span></p>
+            <p>5+  <span>Certifications</span></p>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@ const Profile = () => {
       <div className="post-grid">
         {posts.map((post) => (
           <div key={post.id} className="post-item">
-            <img src={post.image} alt={`Post ${post.id}`} className="post-image" />
+            <img src={post.image} alt={`Post ${post.id}`} className="post-img" />
           </div>
         ))}
       </div>

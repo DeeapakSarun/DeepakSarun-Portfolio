@@ -43,7 +43,7 @@
 }
 
 .navbar-links a svg  {
-    width: calc(10px + 1vw*0.5 + 1vh);
+    width: calc(16px + 1vw*0.5 + 1vh);
     height: auto;
 }
 
@@ -54,9 +54,8 @@
     height: calc(24px + 1vw*0.5 + 1vh);
 }
 
-.icon:active{
-    border:#fff 2px solid;
-}
+
+
 .active svg {
     fill: white !important;
     stroke: white !important;

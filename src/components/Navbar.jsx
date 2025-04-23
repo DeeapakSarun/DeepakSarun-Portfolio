@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Components/Navbar.css';
-import { Home, MessageCircle,User, Gamepad2} from 'lucide-react'; 
+import { Home, MessageCircle,SquarePlus, Gamepad2} from 'lucide-react'; 
 import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
@@ -25,6 +25,13 @@ const Navbar = () => {
                                 <MessageCircle />
                             </Link>
                         </li>
+
+                        <li >
+                            <Link to="/Message">
+                                <SquarePlus />
+                            </Link>
+                        </li>
+                        
                         <li className={location.pathname === '/StopForAGame' ? 'active' : ''}>
                             <Link to="/StopForAGame">
                                 <Gamepad2 />

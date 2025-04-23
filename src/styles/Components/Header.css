@@ -11,7 +11,7 @@
     min-height: 50px;
     max-height: 100px;
     z-index: 1;
-    border-bottom: 1px solid #2c2c2c;
+    border-bottom: 1px solid #1d1d1d;
 
 }
 .instafolio {
@@ -34,8 +34,8 @@
     height:10dvh;
     min-height: 50px;
     max-height: 100px;
-    
     z-index: 1;
+    border-bottom: 1px solid #1d1d1d;
 }
 
 
@@ -73,7 +73,7 @@ h2 {
 }
 
 .header .icons svg, svg {
-    width: calc(10px + 1vw*0.5 + 1vh);
+    width: calc(16px + 1vw*0.5 + 1vh);
     height: auto;
     cursor: pointer;
 }
