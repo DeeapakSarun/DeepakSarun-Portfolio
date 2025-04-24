@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Pages/Feed.css';
+import {Heart} from 'lucide-react';
 
 const Feed = () => {
 
@@ -50,7 +51,7 @@ const Feed = () => {
           <div className="post-footer">
             <div className="actions">
                 <div className='likecontainer'>
-                    <button className="like-button">❤️</button>
+                    <button className="like-button"> <Heart /></button>
                     <div className="likes">{post.likes}</div>
                 </div>
 

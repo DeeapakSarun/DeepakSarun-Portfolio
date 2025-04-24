@@ -51,6 +51,15 @@ h2 {
     color: #fff;
 }
 
+.feedHeader .icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 50px;
+    margin-right: 5px;
+    width: fit-content;
+}
+
 .icons {
     width: 20%;
     display: flex;
@@ -60,6 +69,7 @@ h2 {
 
  .icons li, li{
     list-style: none;
+    display: flex;
  }
 
  li a {
@@ -88,3 +98,5 @@ h2 {
 .header .icons svg:hover {
     opacity: 0.8;
 }
+
+

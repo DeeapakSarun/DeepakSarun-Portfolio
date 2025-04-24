@@ -9,7 +9,7 @@ const Navbar = () => {
 
     if (
         location.pathname === '/Resume' || 
-        location.pathname === '/CopyRight') {
+        location.pathname === '/CopyRight'){
         return null;
     } else {
             return (
@@ -23,12 +23,6 @@ const Navbar = () => {
                         <li className={location.pathname === '/Message' ? 'active' : ''}>
                             <Link to="/Message">
                                 <MessageCircle />
-                            </Link>
-                        </li>
-
-                        <li >
-                            <Link to="/Message">
-                                <SquarePlus />
                             </Link>
                         </li>
                         

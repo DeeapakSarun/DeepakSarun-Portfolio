@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Components/Header.css';
+import LikeButton from './LikeButton';
+
 import { Heart, MessageCircleQuestion, ArrowLeft, Copyright, FileUser } from 'lucide-react';
 
 const Header = () => {
@@ -26,9 +28,7 @@ const Header = () => {
                 <div className="logo"><span className='instafolio'>Instafolio</span></div>
                     <ul className="icons">
                         <li>
-                            <Link to="/Likes">
-                                <Heart />
-                            </Link>
+                            <LikeButton />
                         </li>
                         <li>
                             <Link to="/FAQ">

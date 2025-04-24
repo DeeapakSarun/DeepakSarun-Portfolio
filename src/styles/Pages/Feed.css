@@ -1,6 +1,6 @@
 .feed-container {
     width: 100%;
-    margin: 0 auto;
+    margin: 20px auto 0 auto;
     max-width: 600px;
     padding: 0px;
   }
@@ -25,11 +25,7 @@
 
   }
   
-  .spanBold {
-    font-size: 18px;
-    font-weight: 700;
-    color: #ffffff;
-  }
+
 
   .profileContainer {
     display: flex;
