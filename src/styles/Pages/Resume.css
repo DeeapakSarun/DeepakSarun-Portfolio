@@ -1,0 +1,72 @@
+/* Resume Page Styles */
+.resume-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:  0;
+    background-color: #000;
+    height: fit-content;
+}
+
+.resume-gif {
+    width: 300px;
+    margin-bottom: 2rem;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.button {
+    margin: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bolder;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.show-button {
+    background-color: #000000;
+    border: 2px solid #e6125c;
+    color: white;
+}
+
+.download-button {
+    background-color: #e6125c;
+    border: 2px solid #fff;
+    color: rgb(255, 255, 255);
+}
+
+/* Optional: Add a slight hover effect */
+.show-button:hover {
+    background-color: #ff005936;
+    border: 2px solid #f71a51;
+    color: #ffffff;
+    transform: scale(1.1);
+}
+
+.download-button:hover {
+    background-color: #e6125c30;
+    border: 2px solid #ffffff;
+    color: #e6125c;
+    transform: scale(1.1);
+}
+
+
+.viewer-container {
+    width: 90%;
+    height: fit-content;
+    margin:  auto 0;
+    background-color: #000000;
+    padding: 1rem;
+    border-radius: 8px;
+
+}
+

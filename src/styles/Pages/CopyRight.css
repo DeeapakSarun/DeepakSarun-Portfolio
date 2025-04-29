@@ -40,7 +40,6 @@
 }
 
 .name {
-    font-size: calc(20px  + 1dvw * 0.5 + 1vh * 0.5);
     margin: 10px 0;
     color: transparent;
     background: linear-gradient(60deg, #7b7b7b, #797979, #ffffff,#ffffff, #797979, #7b7b7b);
@@ -74,18 +73,22 @@
 
 .social-link {
     display: inline-block;
-    padding: 10px 20px;
-    background-color: #333;
+    padding: 5px 20px;
+    background-color: #313131;
+    font-weight: 900;
+    border: 2px solid #ffffff;
     color: white;
     font-size: 1rem;
     border-radius: 50px;
     text-decoration: none;
     
-    transition: all 0.3s ease;
+    transition: all 0.1s ease-in-out;
+    
 }
 
 .social-link:hover {
-    background-color: #d62976;
+    background-color: #e8223949;
+    border: #e8223d 2px solid;
 }
 
 .footer {

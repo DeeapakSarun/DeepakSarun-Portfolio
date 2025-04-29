@@ -10,6 +10,7 @@
 
 .container {
   background-color: black;
+  border-top: none;;
   min-height: 100vh;
   height: fit-content;
   max-width: 1200px; 

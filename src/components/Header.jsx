@@ -72,7 +72,7 @@ const Header = () => {
                 <ul className='icons'>
                     <li>
                         <Link alt="View Resume" to="/Resume">
-                            <FileUser />
+                            <img src="/assets/resumeicon.gif" alt="resume icon" />
                         </Link>
                     </li>
                 </ul>

@@ -23,7 +23,7 @@ const Landing = () => {
                 navigate('/');
                 document.body.style.overflow = 'visible'; // Prevent scrolling during animation
                   // Redirect to the home page after the animation
-            }, 10000); // Full animation time
+            }, 4200); // Full animation time
 
             return () => clearTimeout(timer);
         } else {

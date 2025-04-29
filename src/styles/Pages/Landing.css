@@ -19,7 +19,7 @@ body{
     top: 0;
     left: 0;
     animation: fadeOut 1s ease-in 4s forwards;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .word {

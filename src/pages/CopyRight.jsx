@@ -48,6 +48,7 @@ var currentIndex = 0;
                         className="name"
                         style={{
                             fontFamily: name.font, 
+                            fontSize: 'calc(2.5vw + 12px + 1.5vh)',
                         }}
                     >
                         {name.text||"Deepak Sarun"}

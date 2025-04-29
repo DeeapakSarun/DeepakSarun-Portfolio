@@ -32,7 +32,7 @@ const Profile = () => {
     slidesToScroll: 1,
     speed: 3000,
     autoplay: true,
-    autoplaySpeed: 500,
+    autoplaySpeed: 1000,
     arrows: false, // No arrows
     dots: false, // No dots
     pauseOnHover: false, // No pause on hover
@@ -45,22 +45,31 @@ const Profile = () => {
       <div className="profile-header">
         <img
           src="/assets/profile.jpg"  // Using image from public/assets folder
-          alt="Profile"
-          className="profile-photo"
-        />
-        <div className="profile-info">
-          <h1 className='username'><a className="usernamelink" href="https://www.instagram.com/_deeksaru__/">@_deeksaru__</a></h1>
-          <p>DEEPAK SARUN</p>
-          <p>Web Developer | Tech Enthusiast</p>
-          <div className="profile-stats">
+            alt="Profile"
+            className="profile-photo"
+          />
+          <div className="profile-info">
+            <h1 className='username'>
+            <a 
+              className="usernamelink" 
+              href="https://www.instagram.com/_deeksaru__/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              @_deeksaru__
+            </a>
+            </h1>
+            <p>DEEPAK SARUN</p>
+            <p>Web Developer | Tech Enthusiast</p>
+            <div className="profile-stats">
             <p>3   <span>Hacks</span></p>
             <p>5+  <span>Projects</span></p>
             <p>5+  <span>Certifications</span></p>
+            </div>
           </div>
-        </div>
-      </div>
+          </div>
 
-      {/* Skills Carousel (Story Highlights) */}
+          {/* Skills Carousel (Story Highlights) */}
       <div className="skills-carousel">
         <Slider {...settings}>
           {skills.map((skill, index) => (
