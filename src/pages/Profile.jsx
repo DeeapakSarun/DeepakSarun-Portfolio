@@ -60,7 +60,8 @@ const Profile = () => {
             </a>
             </h1>
             <p>DEEPAK SARUN</p>
-            <p>Web Developer | Tech Enthusiast</p>
+            <p>Software Developer | Tech Enthusiast</p>
+            <p>Ms Coumputer Science @ SLU</p>
             <div className="profile-stats">
             <p>3   <span>Hacks</span></p>
             <p>5+  <span>Projects</span></p>
@@ -83,6 +84,10 @@ const Profile = () => {
         </Slider>
       </div>
 
+    <div className="postSections">
+      <p>projects</p>
+    </div>
+    
       {/* Post Grid */}
       <div className="post-grid">
         {posts.map((post) => (

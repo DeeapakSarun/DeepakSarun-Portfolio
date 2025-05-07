@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import '../styles/Pages/Resume.css'; // 👈 Import your CSS file
+import '../styles/Pages/Resume.css';
 
 const Resume = () => {
     const [showPdf, setShowPdf] = useState(false);
