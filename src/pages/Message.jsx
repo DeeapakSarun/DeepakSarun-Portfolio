@@ -37,7 +37,7 @@ const socialAccounts = [
 const Message = () => {
   return (
     <div className="message-container">
-      <h1 className="message-title">Connect with me</h1>
+
       <div>
         {socialAccounts.map((account, idx) => (
           <a

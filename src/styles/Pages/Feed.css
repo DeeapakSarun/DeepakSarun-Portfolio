@@ -113,6 +113,54 @@ button.next {
 }
 
 
+.like-button.liked svg {
+  stroke: red;
+  fill: red;
+}
+
+.heart-jump {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
+  width: 20px;
+  height: 20px;
+  background-image: url('/assets/heart.png'); /* or use content: "❤️"; */
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: jump-heart 1s ease forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes jump-heart {
+  0% {
+    transform: translateX(-50%) translateY(-10%) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateX(-50%) translateY(-50%) scale(2.5) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-40%) translateY(-60%) scale(7) rotate(-20deg);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(-50%) translateY(-200%) scale(2) rotate(10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-600%) scale(0.5) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.like-button.liked svg {
+  stroke: red;
+  fill: red;
+}
+
 
 button.prev {
   left: 10px;

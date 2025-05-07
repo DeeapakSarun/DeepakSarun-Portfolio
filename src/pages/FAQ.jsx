@@ -31,7 +31,7 @@ const faqs = [
   {
     question: "What hackathons have you participated in?",
     answer:
-      "I’ve participated in 3 hackathons and secured 3rd place in one. You can explore my hackathon projects on my Devpost: https://devpost.com/software/detalk-bridging-communication-for-all",
+      "I’ve participated in 3 hackathons and secured 3rd place in one. You can explore my hackathon projects on my Devpost.",
   },
   {
     question: "Which project are you most proud of?",

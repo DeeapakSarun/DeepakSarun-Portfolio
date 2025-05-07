@@ -9,7 +9,7 @@ const Header = () => {
     const location = useLocation();
 
     const titleMap = {
-        '/Message': 'Message',
+        '/Message': 'Lets Connect',
         '/Resume': 'Resume',
         '/StopForAGame': 'Game Time!',
         '/CopyRight': 'Copyright Info',
