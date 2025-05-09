@@ -44,16 +44,7 @@ const Feed = () => {
       likes: 150,
       datePosted: "December 10, 2023",
     },
-    {
-      id: 1,
-      username: 'combusted_2k22',
-      userImage: '/assets/posts/featured/SLUHackathon/userPic/user.png',
-      images: ['/assets/posts/featured/SLUHackathon/postPic/postpic1.jpeg', '/assets/posts/featured/SLUHackathon/postPic/postpic2.jpeg'],
-      caption: "I'm proud to have organized the first-ever hackathon hosted by Saint Louis University's Global Grad initiative. It was a great learning opportunity to organize my first tech event, starting from finalizing a problem statement to validating the submissions.",
-      postLink: 'https://www.instagram.com/p/C0r1PZ7Rs3_/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==',
-      likes: 150,
-      datePosted: "April 15, 2022",
-    },
+
   ];
   return (
     <div className="feed-container">

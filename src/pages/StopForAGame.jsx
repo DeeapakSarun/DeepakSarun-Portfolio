@@ -10,17 +10,17 @@ const StopForAGame = () => {
   const bird = {
     x: 50,
     y: 200,
-    width: 30,
-    height: 25,
+    width: window.innerWidth > 600 ? 90 : 30,
+    height: window.innerWidth > 600 ? 40 : 25,
     gravity: 0.2,
     lift: -5,
     velocity: 0,
   };
 
   const pipes = [];
-  const pipeWidth = 50;
-  const pipeGap = 200;
-  const pipeSpeed = 2;
+  const pipeWidth = window.innerWidth > 600 ? 150 : 50;
+  const pipeGap = window.innerWidth > 600 ? 200 : 150;
+  const pipeSpeed = window.innerWidth > 600 ? 3 : 1;
 
   const handleResize = () => {
     const canvas = canvasRef.current;
@@ -62,7 +62,7 @@ const StopForAGame = () => {
     }
 
     // Generate new pipe
-    if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 300) {
+    if (pipes.length === 0 || pipes[pipes.length - 1].x < (canvas.width - (window.innerWidth > 600 ? 1000 : 300))) {
       const pipeHeight = Math.floor(Math.random() * (canvas.height - pipeGap));
       pipes.push({ x: canvas.width, y: pipeHeight });
     }
@@ -107,9 +107,9 @@ const StopForAGame = () => {
       ctx.fillRect(pipe.x, pipe.y + pipeGap, pipeWidth, canvas.height - pipe.y - pipeGap);
     
       // === OPENING EDGE RECTANGLES WITH GRADIENT ===
-      const edgeHeight = 10;
-      const edgeWidth = pipeWidth + 10;
-      const edgeX = pipe.x - 5;
+      const edgeHeight = (window.innerWidth > 600 ? 20 : 10);
+      const edgeWidth = pipeWidth + (window.innerWidth > 600 ? 30 : 10);
+      const edgeX = pipe.x - (window.innerWidth > 600 ? 15 : 5);
     
       const edgeGradient = ctx.createLinearGradient(edgeX, 0, edgeX + edgeWidth, 0);
       edgeGradient.addColorStop(0, '#004d00');
@@ -136,8 +136,9 @@ const StopForAGame = () => {
 
     // Draw score
     ctx.fillStyle = 'white';
-    ctx.font = '20px Impact';
-    ctx.fillText(`Score: ${scoreRef.current}`, 10, 30);
+    ctx.fontWeight = 'bold';
+    ctx.font = 'calc(10px + 1vw + 1vh*0.5) poppins';
+    ctx.fillText(`Score: ${scoreRef.current}`, (window.innerWidth > 600 ? 40 : 20), 50);
 
     frameRef.current = requestAnimationFrame(gameLoop);
   };
@@ -149,19 +150,19 @@ const StopForAGame = () => {
   
     // Eye - White (move to the right side)
     ctx.fillStyle = 'white';
-    ctx.fillRect(bird.x + bird.width - 15, bird.y + 5, 10, 10);
+    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 35 : 15), bird.y + 5, window.innerWidth > 600 ? 20 : 10, window.innerWidth > 600 ? 10 : 10);
   
     // Eye - Black (center of the white eye)
     ctx.fillStyle = 'black';
-    ctx.fillRect(bird.x + bird.width - 9, bird.y + 7, 3, 3);
+    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 22 : 9), bird.y + 7, window.innerWidth > 600 ? 6 : 3, window.innerWidth > 600 ? 6 : 3);
   
     // Beak - Orange (pointing right)
     ctx.fillStyle = 'orange';
-    ctx.fillRect(bird.x + bird.width-5, bird.y + 7, 10, 5);
+    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 10 : 5) , bird.y + (window.innerWidth > 600 ? 12 : 9), window.innerWidth > 600 ? 40 : 12, window.innerWidth > 600 ? 10 : 5);
   
     // Tail - yellow (left end of the bird)
     ctx.fillStyle = 'yellow';
-    ctx.fillRect(bird.x - 8, bird.y + 15, 10, 5);
+    ctx.fillRect( (bird.x - (window.innerWidth > 600 ? 20 : 8)), bird.y + (window.innerWidth > 600 ? 25 : 15), window.innerWidth > 600 ? 20 : 20, window.innerWidth > 600 ? 10 : 5);
   };
   
 
@@ -210,9 +211,12 @@ const StopForAGame = () => {
 
 const styles = {
   container: {
-    position: 'relative',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: '100%',
-    height: '80vh',
+    height: '80dvh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

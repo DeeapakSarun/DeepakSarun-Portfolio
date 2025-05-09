@@ -1,0 +1,207 @@
+/* Add this to styles.css or your component's corresponding stylesheet */
+#post {
+    position: absolute;
+    width: 80%;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: rgb(0, 0, 0);
+    border-radius: 8px;
+    box-shadow: 0 0px 100px 0px  rgba(73, 73, 73, 0.378);
+    padding: 20px;
+    overflow: hidden;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .profileContainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profilePic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  
+  .seepost {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .slideShow {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background-color: #000000;
+    min-height: 500px;
+    max-height: 500px;
+    overflow: hidden; /* Hide overflowed content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  
+  .post-image {
+    max-width: 100%;
+    object-fit: contain;
+  }
+  
+  button.prev,
+  button.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    font-size: 2rem;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 2000;
+    opacity: 0; /* Hide arrows by default */
+    transition: opacity 0.3s ease-in-out;
+  }
+#post:hover .prev,
+#post:hover .next {
+  opacity: 1; /* Show arrows when hovered */
+}
+
+button.prev {
+    left: 10px;
+    z-index: 2000;
+  }
+  
+  button.next {
+    right: 10px;
+    z-index: 2000;
+  }
+  
+  .post-footer {
+    margin-inline: 10px ;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .likecontainer {
+    display: flex;
+    align-items: center;
+  }
+  
+  .like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    color: #ccc;
+    transition: color 0.3s ease;
+  }
+  
+  .like-button.liked {
+    color: red;
+  }
+  
+  .heart-jump {
+    animation: heartJump 0.3s ease-in-out;
+  }
+  
+  @keyframes heartJump {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .likes {
+    margin-left: 10px;
+    font-size: 16px;
+  }
+  
+  .captions {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: justify;
+  }
+  
+  .Date {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+  }
+  
+
+@media (max-width: 450px) {
+    #post {
+      width: 100%;
+    }
+  
+    .prev,
+    .next {
+      padding: 5px;
+      font-size: 12px;
+    }
+  
+    .like-button {
+      font-size: 20px;
+    }
+  
+    .likes {
+      font-size: 14px;
+    }
+  
+    .captions {
+        margin-top: 0px;
+        font-size: 8px;
+    }
+    .slideShow {
+        min-height: 300px;
+        max-height: 300px;
+    }
+    .Date {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .captions {
+        margin-top: 0px;
+        font-size: 10px;
+    }
+    .slideShow {
+        min-height: 400px;
+        max-height: 400px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .slideShow {
+        min-height: 250px;
+        max-height: 250px;
+    }
+    .captions {
+        margin-top: -10px;
+        font-size: 10px;
+    }
+  }

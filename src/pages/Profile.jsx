@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Slider from 'react-slick'; // Import slick slider
+import { Heart, CircleChevronLeft, CircleChevronRight } from 'lucide-react'; // Icons for navigation
+import PostPopup from '../components/PostPopup'; // Import the PostPopup component
 import '../styles/Pages/Profile.css'; // Import the CSS file
 
 // Skills for Carousel
@@ -14,17 +16,73 @@ const skills = [
   { name: "Node.js", logo: "/assets/skill/node.png" }
 ];
 
-// Sample Posts for Feed
+
 const posts = [
-  { id: 1, image: "/assets/profile.jpg" },
-  { id: 2, image: "/assets/deepak.png" },
-  { id: 3, image: "/assets/profile.jpg" },
-  { id: 4, image: "/assets/deepak.png" },
-  { id: 5, image: "/assets/profile.jpg" },
-  { id: 6, image: "/assets/deepak.png" },
-];
+  {
+    id: 5,
+    username: 'UpliftXP',
+    userImage: '/assets/profile.jpg',
+    images: ['/assets/posts/projects/upliftxp/postpic1.png'],
+    caption: '🚀 Excited to share our project from HackSLU: UpliftXP! 💡 Over an intense and rewarding hackathon weekend, we built UpliftXP, a cross-platform mobile app designed to promote both mental wellness and physical activity. 📱 Key Features: Apple Health Integration – fetches daily step counts to track physical activity, ✅ Daily Task List – includes mindfulness and fitness tasks to encourage healthy habits, 🌟 XP Tracking System – users earn XP by completing tasks, 🏆 Global Leaderboard – friendly competition to stay motivated, 📈 Habit Tracking & Streaks – visualize consistency over time, 🔔 Push Notifications – smart reminders to keep users on track. 🛠️ Tech Stack: Frontend: React Native (Expo), Backend: Firebase (Authentication, Firestore), State Management: React Context API, UI Library: React Native Paper. 💬 This was an incredible opportunity to blend health tech and gamification in a way that makes self-care more engaging. 🌟',
+    postLink: 'https://github.com/DeeapakSarun/team-ichi',
+    likes: 200,
+    datePosted: "May 1, 2025",
+  },  
+  {
+    id: 4,
+    username: 'DeTalk',
+    userImage: '/assets/profile.jpg',
+    images: ['/assets/posts/projects/detalk/postpic1.png'],
+    caption: '🌍 DeTalk is an accessible communication platform designed to bridge the gap for individuals with visual, speech, or hearing impairments. 🦾 It integrates real-time sign language recognition using AI, providing up to 90% accuracy in translation. The app features a user-friendly Jinja-based UI with screen reader support, ensuring enhanced accessibility. This project was completed in just 36 hours as part of the eHacks 2025 hackathon! 🚀',
+    postLink: 'https://github.com/VennapusalaCharitha/Team_uno',
+    likes: 125,
+    datePosted: "March 25, 2025",
+  },
+  {
+    id: 3,
+    username: 'Space Invaders',
+    userImage: '/assets/profile.jpg',
+    images: ['/assets/posts/projects/spaceinvaders/postpic1.png'],
+    caption: '👾 Space Invaders brings the classic arcade game to life using Java and Swing. 🎮 As the team lead, I helped implement design patterns such as Factory and Singleton, which reduced memory usage by 35%. The game runs at a smooth 60 FPS, ensuring an optimized gaming experience that is just as addictive as the original. 🏆',
+    postLink: 'https://github.com/DeeapakSarun/SpaceInvaders.git',
+    likes: 150,
+    datePosted: "February 15, 2025",
+  },
+  {
+    id: 2,
+    username: 'Ocean Katamari',
+    userImage: '/assets/profile.jpg',
+    images: ['/assets/posts/projects/oceankatamari/postpic1.png', '/assets/projects/oceankatamari/postPic/postpic2.jpg'],
+    caption: '🌊 Ocean Katamari is a recreation of the Katamari Roll game using Three.js and WebGL. 💫 I developed interactive 3D models and animations to create a dynamic, immersive environment with 20+ moving elements. The game runs smoothly at 50 FPS, offering an engaging experience for players as they roll their katamari through vibrant 3D worlds. 🌟',
+    postLink: 'https://github.com/VennapusalaCharitha/Ocean_katamari.git',
+    likes: 175,
+    datePosted: "January 5, 2025",
+  },
+  {
+    id: 1,
+    username: 'AirView',
+    userImage: '/assets/profile.jpg',
+    images: ['/assets/posts/projects/AirView/postPic1.png', '/assets/posts/projects/AirView/postPic2.gif'],
+    caption: '🌐 AirView – Airport Operations Web Application, developed between May ’24 – Jun ’24. This application is designed to streamline airport operations, improving both user experience and operational efficiency. 🛫 Built with Python Flask, HTML, CSS, and JavaScript, it offers robust flight management, supporting up to 200 flight entries and 100+ bookings. 🔐 The app features secure user authentication with role-based access, managing over 100+ user accounts. 🚀 CI/CD was integrated using Docker and CircleCI, achieving 95% deployment efficiency. The project was recognized for exceptional leadership and execution, earning a 98% project grade. 🎓',
+    postLink: 'https://github.com/BaloneyBoy97/PSD-TEAM',
+    likes: 200,
+    datePosted: "June 30, 2024",
+  },
+
+];  
+
 
 const Profile = () => {
+  const [selectedPost, setSelectedPost] = useState(null); // State for the selected post
+
+  const handlePostClick = (post) => {
+    setSelectedPost(post); // Set selected post when clicked
+  };
+
+  const handleCloseOverlay = () => {
+    setSelectedPost(null); // Close the overlay
+  };
+
   // Settings for the carousel
   const settings = {
     infinite: true,
@@ -41,15 +99,27 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+      {/* Conditionally render the overlay only when a post is selected */}
+      {selectedPost && (
+        <div className='overlay'>
+          <PostPopup post={selectedPost} onClose={handleCloseOverlay}>
+
+          </PostPopup>
+          <button className="close-button" onClick={handleCloseOverlay}>
+              close
+          </button>
+        </div>
+      )}
+
       {/* Profile Header */}
       <div className="profile-header">
         <img
           src="/assets/profile.jpg"  // Using image from public/assets folder
-            alt="Profile"
-            className="profile-photo"
-          />
-          <div className="profile-info">
-            <h1 className='username'>
+          alt="Profile"
+          className="profile-photo"
+        />
+        <div className="profile-info">
+          <h1 className='username'>
             <a 
               className="usernamelink" 
               href="https://www.instagram.com/_deeksaru__/" 
@@ -58,19 +128,19 @@ const Profile = () => {
             >
               @_deeksaru__
             </a>
-            </h1>
-            <p>DEEPAK SARUN</p>
-            <p>Software Developer | Tech Enthusiast</p>
-            <p>Ms Coumputer Science @ SLU</p>
-            <div className="profile-stats">
+          </h1>
+          <p>DEEPAK SARUN</p>
+          <p>Software Developer | Tech Enthusiast</p>
+          <p>Ms Computer Science @ SLU</p>
+          <div className="profile-stats">
             <p>3   <span>Hacks</span></p>
-            <p>5+  <span>Projects</span></p>
+            <p>{posts.length}+  <span>Projects</span></p>
             <p>5+  <span>Certifications</span></p>
-            </div>
           </div>
-          </div>
+        </div>
+      </div>
 
-          {/* Skills Carousel (Story Highlights) */}
+      {/* Skills Carousel (Story Highlights) */}
       <div className="skills-carousel">
         <Slider {...settings}>
           {skills.map((skill, index) => (
@@ -83,16 +153,14 @@ const Profile = () => {
           ))}
         </Slider>
       </div>
-
-    <div className="postSections">
-      <p>projects</p>
-    </div>
-    
+          <div id="SectionHeader">
+            <p>projects</p>
+          </div>
       {/* Post Grid */}
       <div className="post-grid">
         {posts.map((post) => (
-          <div key={post.id} className="post-item">
-            <img src={post.image} alt={`Post ${post.id}`} className="post-img" />
+          <div key={post.id} className="post-item" onClick={() => handlePostClick(post)}>
+            <img src={post.images[0]} alt={`Post ${post.id}`} className="post-img" />
           </div>
         ))}
       </div>
