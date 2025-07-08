@@ -1,49 +1,121 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { db, doc, getDoc, updateDoc } from '../components/firebase';
+
+const BASE_WIDTH = 600;
+const BASE_HEIGHT = 800;
 
 const StopForAGame = () => {
   const canvasRef = useRef(null);
   const [isGameOver, setIsGameOver] = useState(false);
-  const [isGameRunning, setIsGameRunning] = useState(true);
+  const [isGameRunning, setIsGameRunning] = useState(false);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
+  const [playerName, setPlayerName] = useState('');
+  const [highScore, setHighScore] = useState(0);
+  const [highScoreHolder, setHighScoreHolder] = useState('');
   const scoreRef = useRef(0);
   const frameRef = useRef(null);
 
-  const bird = {
+  // Use ref for bird so it persists and updates properly
+  const birdRef = useRef({
     x: 50,
     y: 200,
-    width: window.innerWidth > 600 ? 90 : 30,
-    height: window.innerWidth > 600 ? 40 : 25,
+    width: 30,
+    height: 28,
     gravity: 0.2,
     lift: -5,
     velocity: 0,
-  };
+  });
 
-  const pipes = [];
-  const pipeWidth = window.innerWidth > 600 ? 150 : 50;
-  const pipeGap = window.innerWidth > 600 ? 200 : 150;
-  const pipeSpeed = window.innerWidth > 600 ? 3 : 1;
+  const pipes = useRef([]); // also make pipes ref to persist
+
+  const pipeWidth = 80;
+  const pipeGap = 200;
+  const pipeSpeed = 2;
+
+  const [sndJump] = useState(() => new Audio('/sounds/jump.mp3'));
+  const [sndScore] = useState(() => new Audio('/sounds/point.mp3'));
+  const [sndGameOver] = useState(() => new Audio('/sounds/gameover.mp3'));
 
   const handleResize = () => {
     const canvas = canvasRef.current;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 0.7;
+    const parentWidth = window.innerWidth;
+    const parentHeight = window.innerHeight * 0.8;
+
+    const scaleX = parentWidth / BASE_WIDTH;
+    const scaleY = parentHeight / BASE_HEIGHT;
+    const scale = Math.min(scaleX, scaleY);
+
+    canvas.width = BASE_WIDTH;
+    canvas.height = BASE_HEIGHT;
+    canvas.style.width = `${BASE_WIDTH * scale}px`;
+    canvas.style.height = `${BASE_HEIGHT * scale}px`;
   };
 
   const resetGame = () => {
     scoreRef.current = 0;
-    pipes.length = 0;
-    bird.y = 200;
-    bird.velocity = 0;
+    pipes.current = [];
+    birdRef.current.y = 200;
+    birdRef.current.velocity = 0;
     setIsGameOver(false);
+    setIsNewHighScore(false);
+    setPlayerName('');
     setIsGameRunning(true);
-    gameLoop();
+
+    if (canvasRef.current) canvasRef.current.focus();
+
+    setTimeout(() => {
+      gameLoop();
+    }, 0);
   };
 
   const handleJump = () => {
-    if (isGameOver || !isGameRunning) {
-      resetGame();
-    } else {
-      bird.velocity = bird.lift;
-    }
+    if (!isGameRunning || isGameOver) return;
+    birdRef.current.velocity = birdRef.current.lift;
+    sndJump.currentTime = 0;
+    sndJump.play();
+  };
+
+  const drawBird = (ctx) => {
+    const bird = birdRef.current;
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(bird.x + bird.width - 15, bird.y + 5, 10, 10);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(bird.x + bird.width - 9, bird.y + 7, 3, 3);
+    ctx.fillStyle = 'orange';
+    ctx.fillRect(bird.x + bird.width - 5, bird.y + 9, 12, 5);
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(bird.x - 8, bird.y + bird.height - 10, 20, 5);
+  };
+
+  const drawPipes = (ctx, canvasHeight) => {
+    pipes.current.forEach((pipe) => {
+      const gradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + pipeWidth, 0);
+      gradient.addColorStop(0, 'green');
+      gradient.addColorStop(0.5, 'lightgreen');
+      gradient.addColorStop(1, 'green');
+      ctx.fillStyle = gradient;
+
+      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.y);
+      ctx.fillRect(pipe.x, pipe.y + pipeGap, pipeWidth, canvasHeight - pipe.y - pipeGap);
+
+      const edgeHeight = 10;
+      const edgeWidth = pipeWidth + 10;
+      const edgeX = pipe.x - 5;
+      const edgeGradient = ctx.createLinearGradient(edgeX, 0, edgeX + edgeWidth, 0);
+      edgeGradient.addColorStop(0, '#004d00');
+      edgeGradient.addColorStop(0.5, '#99ff99');
+      edgeGradient.addColorStop(1, '#004d00');
+
+      ctx.fillStyle = edgeGradient;
+      ctx.fillRect(edgeX, pipe.y - edgeHeight, edgeWidth, edgeHeight);
+      ctx.fillRect(edgeX, pipe.y + pipeGap, edgeWidth, edgeHeight);
+
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.fillRect(pipe.x, pipe.y, pipeWidth, 4);
+      ctx.fillRect(pipe.x, pipe.y + pipeGap + edgeHeight, pipeWidth, 4);
+    });
   };
 
   const gameLoop = () => {
@@ -51,29 +123,31 @@ const StopForAGame = () => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Update bird position
+    const bird = birdRef.current;
     bird.velocity += bird.gravity;
     bird.y += bird.velocity;
 
-    // Check for floor/ceiling collision
     if (bird.y + bird.height > canvas.height || bird.y < 0) {
       endGame();
       return;
     }
 
-    // Generate new pipe
-    if (pipes.length === 0 || pipes[pipes.length - 1].x < (canvas.width - (window.innerWidth > 600 ? 1000 : 300))) {
-      const pipeHeight = Math.floor(Math.random() * (canvas.height - pipeGap));
-      pipes.push({ x: canvas.width, y: pipeHeight });
+    if (
+      pipes.current.length === 0 ||
+      pipes.current[pipes.current.length - 1].x < canvas.width - 300
+    ) {
+      const pipeHeight = Math.random() * (canvas.height - pipeGap - 100) + 50;
+      pipes.current.push({ x: canvas.width, y: pipeHeight });
     }
 
-    // Move pipes and detect collision
-    pipes.forEach((pipe, index) => {
+    pipes.current.forEach((pipe, index) => {
       pipe.x -= pipeSpeed;
 
       if (pipe.x + pipeWidth < 0) {
-        pipes.splice(index, 1);
+        pipes.current.splice(index, 1);
         scoreRef.current++;
+        sndScore.currentTime = 0;
+        sndScore.play();
       }
 
       if (
@@ -85,124 +159,129 @@ const StopForAGame = () => {
       }
     });
 
-    // Draw background
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw pixel-art bird
     drawBird(ctx);
+    drawPipes(ctx, canvas.height);
 
-    pipes.forEach(pipe => {
-      // === PIPE BODY WITH GRADIENT ===
-      const pipeGradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + pipeWidth, 0);
-      pipeGradient.addColorStop(0, 'green');
-      pipeGradient.addColorStop(0.5, 'lightgreen');
-      pipeGradient.addColorStop(1, 'green');
-      ctx.fillStyle = pipeGradient;
-    
-      // Draw top pipe
-      ctx.fillRect(pipe.x, 0, pipeWidth, pipe.y);
-    
-      // Draw bottom pipe
-      ctx.fillRect(pipe.x, pipe.y + pipeGap, pipeWidth, canvas.height - pipe.y - pipeGap);
-    
-      // === OPENING EDGE RECTANGLES WITH GRADIENT ===
-      const edgeHeight = (window.innerWidth > 600 ? 20 : 10);
-      const edgeWidth = pipeWidth + (window.innerWidth > 600 ? 30 : 10);
-      const edgeX = pipe.x - (window.innerWidth > 600 ? 15 : 5);
-    
-      const edgeGradient = ctx.createLinearGradient(edgeX, 0, edgeX + edgeWidth, 0);
-      edgeGradient.addColorStop(0, '#004d00');
-      edgeGradient.addColorStop(0.5, '#99ff99');
-      edgeGradient.addColorStop(1, '#004d00');
-      ctx.fillStyle = edgeGradient;
-    
-      // Bottom edge of top pipe
-      ctx.fillRect(edgeX, pipe.y - edgeHeight, edgeWidth, edgeHeight);
-    
-      // Top edge of bottom pipe
-      ctx.fillRect(edgeX, pipe.y + pipeGap, edgeWidth, edgeHeight);
-    
-      // === SHADOW BELOW THE OPENING EDGE ===
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    
-      // Shadow for bottom of top pipe
-      ctx.fillRect(pipe.x, pipe.y, pipeWidth, 4);
-    
-      // Shadow for top of bottom pipe
-      ctx.fillRect(pipe.x, pipe.y + pipeGap + edgeHeight, pipeWidth, 4);
-    });
-    
-
-    // Draw score
     ctx.fillStyle = 'white';
-    ctx.fontWeight = 'bold';
-    ctx.font = 'calc(10px + 1vw + 1vh*0.5) poppins';
-    ctx.fillText(`Score: ${scoreRef.current}`, (window.innerWidth > 600 ? 40 : 20), 50);
+    ctx.font = "18px 'Press Start 2P'";
+    ctx.fillText(`SCORE: ${scoreRef.current}`, 20, 50);
+    ctx.fillStyle = 'orange';
+    ctx.font = "14px 'Press Start 2P'";
+    ctx.fillText(`HIGHSCORE: ${highScore}`, 20, 80);
 
     frameRef.current = requestAnimationFrame(gameLoop);
   };
 
-  const drawBird = (ctx) => {
-    // Main Body - Yellow
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
-  
-    // Eye - White (move to the right side)
-    ctx.fillStyle = 'white';
-    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 35 : 15), bird.y + 5, window.innerWidth > 600 ? 20 : 10, window.innerWidth > 600 ? 10 : 10);
-  
-    // Eye - Black (center of the white eye)
-    ctx.fillStyle = 'black';
-    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 22 : 9), bird.y + 7, window.innerWidth > 600 ? 6 : 3, window.innerWidth > 600 ? 6 : 3);
-  
-    // Beak - Orange (pointing right)
-    ctx.fillStyle = 'orange';
-    ctx.fillRect(bird.x + bird.width - (window.innerWidth > 600 ? 10 : 5) , bird.y + (window.innerWidth > 600 ? 12 : 9), window.innerWidth > 600 ? 40 : 12, window.innerWidth > 600 ? 10 : 5);
-  
-    // Tail - yellow (left end of the bird)
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect( (bird.x - (window.innerWidth > 600 ? 20 : 8)), bird.y + (window.innerWidth > 600 ? 25 : 15), window.innerWidth > 600 ? 20 : 20, window.innerWidth > 600 ? 10 : 5);
-  };
-  
-
   const endGame = () => {
-    setIsGameOver(true);
-    setIsGameRunning(false);
     cancelAnimationFrame(frameRef.current);
+    setIsGameRunning(false);
+    setIsGameOver(true);
+    sndGameOver.play();
+    if (scoreRef.current > highScore) {
+      setIsNewHighScore(true);
+    }
+  };
+
+  const submitHighScore = async () => {
+    if (!playerName) return;
+    const ref = doc(db, 'highscores', 'globalHighScore');
+    await updateDoc(ref, {
+      name: playerName,
+      score: scoreRef.current,
+    });
+    setHighScore(scoreRef.current);
+    setHighScoreHolder(playerName);
+    setIsNewHighScore(false);
+  };
+
+  const fetchHighScore = async () => {
+    const ref = doc(db, 'highscores', 'globalHighScore');
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      setHighScore(snap.data().score);
+      setHighScoreHolder(snap.data().name);
+    }
   };
 
   useEffect(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
+    fetchHighScore();
 
-    if (isGameRunning) {
-      gameLoop();
-    }
-
-    const onKeyPress = (e) => {
-      if (e.key === ' ' || e.key === 'Spacebar') handleJump();
+    const handleKeyDown = (e) => {
+      if ((e.key === ' ' || e.code === 'Space') && !isGameOver && isGameRunning) {
+        e.preventDefault();
+        handleJump();
+      }
     };
 
-    window.addEventListener('keydown', onKeyPress);
-    window.addEventListener('click', handleJump);
+    const handleClick = (e) => {
+      if (!isGameOver && isGameRunning) {
+        e.preventDefault();
+        handleJump();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('click', handleClick);
 
     return () => {
       cancelAnimationFrame(frameRef.current);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('keydown', onKeyPress);
-      window.removeEventListener('click', handleJump);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('click', handleClick);
     };
-  }, [isGameRunning]);
+  }, [isGameRunning, isGameOver]);
 
   return (
     <div style={styles.container}>
-      <canvas ref={canvasRef} style={styles.canvas} />
+      <canvas
+        ref={canvasRef}
+        style={styles.canvas}
+        tabIndex={0}
+      />
+      {!isGameRunning && !isGameOver && (
+        <button onClick={resetGame} style={styles.startBtn}>START GAME</button>
+      )}
       {isGameOver && (
-        <div style={styles.gameOverOverlay}>
-          <div style={styles.textBig}>Game Over!</div>
-          <div style={styles.textSmall}>Your Score: {scoreRef.current}</div>
-          <div style={styles.textHint}>Click or Press Spacebar to Restart</div>
+        <div style={styles.overlay}>
+          <div style={styles.card}>
+            <div style={styles.icon}>💀</div>
+            <div style={styles.title}>GAME OVER</div>
+            <div style={styles.scoreBox}>
+              <span>YOUR SCORE: </span>
+              <span>{scoreRef.current}</span>
+            </div>
+            <div style={{ ...styles.scoreBox, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <p>
+                {isNewHighScore ? 'CURRENT HIGHSCORE' : 'HIGHSCORE'}
+              </p>
+              <p style={{ marginTop: '10px', color: 'orange', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                <span style={{ display: 'flex', justifyContent: 'center',alignItems:'center', }}>🏆</span>
+                <span  style={{color: 'orange'}}>{highScoreHolder.toUpperCase()} : {highScore}</span>
+              </p>
+            </div>
+            {isNewHighScore ? (
+              <>
+                <div style={{ color: '#0f0', fontWeight: 'bold' }}>
+                  YOU BEAT THE HIGH SCORE!
+                </div>
+                <input
+                  type="text"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value.toUpperCase())}
+                  placeholder="ENTER NAME"
+                  style={styles.input}
+                />
+                <button onClick={submitHighScore} style={styles.submitBtn}>SUBMIT</button>
+              </>
+            ) : (
+              <button onClick={resetGame} style={styles.restartBtn}>PLAY AGAIN</button>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -211,54 +290,96 @@ const StopForAGame = () => {
 
 const styles = {
   container: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
-    height: '80dvh',
+    background: 'black',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    height: 'calc(100dvh - 90px - 80px)',
+    position: 'relative',
+    overflow: 'hidden',
   },
   canvas: {
-    width: '100%',
-    height: '100%',
     display: 'block',
+    imageRendering: 'pixelated',
+    background: 'black',
+    outline: 'none',
   },
-  gameOverOverlay: {
+  startBtn: {
     position: 'absolute',
     top: '50%',
-    left: '50%',
-    width: '80%',
-    height: '50%',
+    transform: 'translateY(-50%)',
+    padding: '12px 24px',
+    fontFamily: "'Press Start 2P'",
+    backgroundColor: '#0f0',
+    color: 'black',
+    border: 'ridge 3px white',
+    borderRadius: 6,
+    cursor: 'pointer',
+    zIndex: 5,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0, left: 0,
+    width: '100%', height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.9)',
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '2px solid white',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: 'rgb(0, 0, 0)',
-    padding: '30px',
-    borderRadius: '10px',
+    zIndex: 10,
+    fontFamily: "'Press Start 2P'",
+  },
+  card: {
+    background: '#111',
+    border: '4px solid #FFD700',
+    padding: 20,
+    borderRadius: 12,
+    textAlign: 'center',
+    color: 'white',
+    width: '80%',
+    maxWidth: 400,
+  },
+  icon: {
+    fontSize: '2rem',
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: '1rem',
+    marginBottom: 20,
+  },
+  scoreBox: {
+    marginBottom: 10,
+    fontSize: '0.75rem',
+  },
+  input: {
+    marginTop: 10,
+    padding: '10px',
+    fontSize: '0.75rem',
+    width: '100%',
+    borderRadius: 6,
+    border: 'none',
     textAlign: 'center',
   },
-  textBig: {
-    fontSize: 'calc(10px + 4vw)',
-    color: 'red',
-    fontWeight: 'bold',
-    marginBottom: '10px',
+  submitBtn: {
+    marginTop: 10,
+    padding: '10px 20px',
+    fontSize: '0.75rem',
+    fontFamily: "'Press Start 2P'",
+    backgroundColor: '#0f0',
+    color: 'black',
+    border: 'ridge 3px white',
+    borderRadius: 6,
+    cursor: 'pointer',
   },
-  textSmall: {
-    fontSize: 'calc(10px + 2vw)',
-    color: 'white',
-    marginBottom: '10px',
-  },
-  textHint: {
-    fontSize: 'calc(10px + 1vw)',
-    color: '#ccc',
-    fontStyle: 'italic',
+  restartBtn: {
+    marginTop: 20,
+    padding: '10px 20px',
+    fontSize: '0.75rem',
+    fontFamily: "'Press Start 2P'",
+    backgroundColor: '#0f0',
+    color: 'black',
+    border: 'ridge 3px white',
+    borderRadius: 6,
+    cursor: 'pointer',
   },
 };
 

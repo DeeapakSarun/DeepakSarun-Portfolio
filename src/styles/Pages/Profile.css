@@ -149,21 +149,37 @@ p span {
 }
 
 #SectionHeader {
-  border-top: #ffffff49 1px solid;
+  border-top: #ffffff2d 2px solid;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 10px;
   align-items: center;
+  gap: 12%;
 }
 
 #SectionHeader p {
-  padding: 15px;
-  border-top: #ffffff 1px solid;
+  padding: 10px;
+  padding-top: 10px;
   text-transform: uppercase;
-  font-size: calc(6px + 1dvh * 0.5 + 1vw * 0.5);
+  border-top: transparent 1px solid;
+  font-size: calc(4px + (1dvh * 0.5) + (1vw * 0.5));
   font-weight: 900;
+  color:#9a9a9a;
+  cursor: pointer;
   margin: 0;
 }
 
+#SectionHeader > p:hover {
+  color: #dadada;
+  transition: all 0.3s ease;
+
+}
+
+#SectionHeader .visited {
+  border-top: #ffffff 1px solid;
+  color: white;
+  transition: all 0.3s ease;
+}
 
 /* Post Section */
 .overlay{
@@ -253,6 +269,10 @@ p span {
     bottom: 5%;
   }
 
+  #SectionHeader {
+    justify-content: space-around;
+    gap:0px;
+  }
 }
 
 @media (max-height: 1100px) {

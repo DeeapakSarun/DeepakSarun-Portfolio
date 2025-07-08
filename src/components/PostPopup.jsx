@@ -40,13 +40,13 @@ const PostPopup = ({ post }) => {
             <div className="post-header">
                 <div className="profileContainer">
                 <img src={post.userImage} alt="Profile" className="profilePic" />
-                <div className="username">{"__deeksaru_"}</div>
+                <div className="username">{post.username}</div>
                 </div>
                 <button
                 className="seepost"
                 onClick={() => window.open(post.postLink, '_blank')}
                 >
-                GitHub
+                {post.images[currentImageIndex].includes('projects') ? (post.images[currentImageIndex].includes('jobquest')? 'Live Site' : 'GitHub') : 'Click Link '}
                 </button>
             </div>
 

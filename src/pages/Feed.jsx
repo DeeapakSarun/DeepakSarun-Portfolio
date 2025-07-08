@@ -5,6 +5,30 @@ import { Heart, CircleChevronLeft, CircleChevronRight } from 'lucide-react';
 const Feed = () => {
   const posts = [
     {
+      id: 7,
+      username: 'deepaksaruny',
+      userImage: '/assets/posts/featured/interco/userPic/user.JPG',
+      images: [
+        '/assets/posts/featured/interco/postPic/postpic1.png',
+      ],
+      caption: "🚀 Excited to share that I’ve started a new chapter as a Software Developer Intern at Interco! Looking forward to learning, growing, and contributing to some amazing projects with the team.",
+      postLink: 'https://www.linkedin.com/feed/update/urn:li:activity:7341079105594933248/', // Replace with actual link if available
+      likes: 100,
+      datePosted: "June 10, 2025",
+    },
+    {
+      id: 6,
+      username: 'deepaksaruny',
+      userImage: '/assets/posts/featured/masters/userPic/user.JPG',
+      images: [
+        '/assets/posts/featured/masters/postPic/postpic1.png',
+      ],
+      caption: "🔥🎯 The grind was real. So is the degree. 🎓✨\n\nProud to share that I’ve earned my Master’s in Computer Science from Saint Louis University – School of Science and Engineering!\nEndless late nights, lines of code, and lessons learned — grateful for everyone who supported me on this journey.\nHere’s to new beginnings and bigger challenges ahead! 🥂",
+      postLink: 'https://www.linkedin.com/feed/update/urn:li:activity:7337568279583969281/', // Replace with actual link if available
+      likes: 300,
+      datePosted: "May 15, 2025",
+    },
+    {
       id: 5,
       username: 'hackslu',
       userImage: '/assets/posts/featured/hackslu/userPic/user.png',
