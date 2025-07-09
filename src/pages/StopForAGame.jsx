@@ -6,6 +6,11 @@ const BASE_HEIGHT = 800;
 
 const StopForAGame = () => {
   const canvasRef = useRef(null);
+  const previewCanvasRef = useRef(null);
+  const previewFrameRef = useRef(null);
+  const [previewBirdY, setPreviewBirdY] = useState(60);
+  const previewDirectionRef = useRef(1);
+
   const [isGameOver, setIsGameOver] = useState(false);
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [isNewHighScore, setIsNewHighScore] = useState(false);
@@ -15,19 +20,17 @@ const StopForAGame = () => {
   const scoreRef = useRef(0);
   const frameRef = useRef(null);
 
-  // Use ref for bird so it persists and updates properly
   const birdRef = useRef({
     x: 50,
     y: 200,
-    width: 30,
-    height: 28,
+    width: 60,
+    height: 56,
     gravity: 0.2,
     lift: -5,
     velocity: 0,
   });
 
-  const pipes = useRef([]); // also make pipes ref to persist
-
+  const pipes = useRef([]);
   const pipeWidth = 80;
   const pipeGap = 200;
   const pipeSpeed = 2;
@@ -35,6 +38,19 @@ const StopForAGame = () => {
   const [sndJump] = useState(() => new Audio('/sounds/jump.mp3'));
   const [sndScore] = useState(() => new Audio('/sounds/point.mp3'));
   const [sndGameOver] = useState(() => new Audio('/sounds/gameover.mp3'));
+
+  // Bird image load & ready state
+  const birdImageRef = useRef(null);
+  const [birdLoaded, setBirdLoaded] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/assets/bird.png'; // Your bird image path here
+    img.onload = () => {
+      birdImageRef.current = img;
+      setBirdLoaded(true);
+    };
+  }, []);
 
   const handleResize = () => {
     const canvas = canvasRef.current;
@@ -75,18 +91,21 @@ const StopForAGame = () => {
     sndJump.play();
   };
 
-  const drawBird = (ctx) => {
-    const bird = birdRef.current;
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
-    ctx.fillStyle = 'white';
-    ctx.fillRect(bird.x + bird.width - 15, bird.y + 5, 10, 10);
-    ctx.fillStyle = 'black';
-    ctx.fillRect(bird.x + bird.width - 9, bird.y + 7, 3, 3);
-    ctx.fillStyle = 'orange';
-    ctx.fillRect(bird.x + bird.width - 5, bird.y + 9, 12, 5);
-    ctx.fillStyle = 'yellow';
-    ctx.fillRect(bird.x - 8, bird.y + bird.height - 10, 20, 5);
+  // Draw bird image with scale and blend mode
+  const drawBird = (ctx, bird, scale = 1) => {
+    if (birdLoaded && birdImageRef.current) {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.drawImage(
+        birdImageRef.current,
+        bird.x,
+        bird.y,
+        bird.width * scale,
+        bird.height * scale
+      );
+    } else {
+      ctx.fillStyle = 'yellow';
+      ctx.fillRect(bird.x, bird.y, bird.width * scale, bird.height * scale);
+    }
   };
 
   const drawPipes = (ctx, canvasHeight) => {
@@ -120,7 +139,10 @@ const StopForAGame = () => {
 
   const gameLoop = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const bird = birdRef.current;
@@ -162,7 +184,8 @@ const StopForAGame = () => {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawBird(ctx);
+    drawBird(ctx, bird); // Draw bird in game
+
     drawPipes(ctx, canvas.height);
 
     ctx.fillStyle = 'white';
@@ -236,16 +259,62 @@ const StopForAGame = () => {
     };
   }, [isGameRunning, isGameOver]);
 
+  // Preview animation effect
+  useEffect(() => {
+    if (!previewCanvasRef.current || !birdLoaded) return;
+
+    const ctx = previewCanvasRef.current.getContext('2d');
+    let animationFrameId;
+
+    const animate = () => {
+      setPreviewBirdY(prevY => {
+        let newY = prevY + previewDirectionRef.current * 0.5;
+        if (newY > 80 || newY < 50) {
+          previewDirectionRef.current *= -1;
+          newY = prevY + previewDirectionRef.current * 0.5;
+        }
+        return newY;
+      });
+
+      ctx.clearRect(0, 0, 160, 160);
+
+      const bird = {
+        x: (160 - 120) / 2,
+        y: previewBirdY- 25,
+        width: 120,
+        height: 112,
+      };
+
+      drawBird(ctx, bird);
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    if (!isGameRunning && !isGameOver) {
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [isGameRunning, isGameOver, previewBirdY, birdLoaded]);
+
   return (
     <div style={styles.container}>
-      <canvas
-        ref={canvasRef}
-        style={styles.canvas}
-        tabIndex={0}
-      />
+      <canvas ref={canvasRef} style={styles.canvas} tabIndex={0} />
+
       {!isGameRunning && !isGameOver && (
-        <button onClick={resetGame} style={styles.startBtn}>START GAME</button>
+        <div style={styles.previewContainer}>
+          <canvas
+            ref={previewCanvasRef}
+            width={160}
+            height={160}
+            style={styles.previewCanvas}
+          />
+          <button onClick={resetGame} style={styles.startBtn}>START GAME</button>
+        </div>
       )}
+
       {isGameOver && (
         <div style={styles.overlay}>
           <div style={styles.card}>
@@ -260,8 +329,8 @@ const StopForAGame = () => {
                 {isNewHighScore ? 'CURRENT HIGHSCORE' : 'HIGHSCORE'}
               </p>
               <p style={{ marginTop: '10px', color: 'orange', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span style={{ display: 'flex', justifyContent: 'center',alignItems:'center', }}>🏆</span>
-                <span  style={{color: 'orange'}}>{highScoreHolder.toUpperCase()} : {highScore}</span>
+                <span style={{ display: 'flex', justifyContent: 'center', alignItems:'center', }}>🏆</span>
+                <span style={{color: 'orange'}}>{highScoreHolder.toUpperCase()} : {highScore}</span>
               </p>
             </div>
             {isNewHighScore ? (
@@ -304,10 +373,24 @@ const styles = {
     background: 'black',
     outline: 'none',
   },
-  startBtn: {
+  previewContainer: {
     position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
+    top: '18%',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    zIndex: 5,
+  },
+  previewCanvas: {
+    imageRendering: 'pixelated',
+    backgroundColor: 'black',
+    marginBottom: 40,
+    width: '160px',
+    height: '160px',
+  },
+  startBtn: {
     padding: '12px 24px',
     fontFamily: "'Press Start 2P'",
     backgroundColor: '#0f0',
@@ -319,9 +402,11 @@ const styles = {
   },
   overlay: {
     position: 'absolute',
-    top: 0, left: 0,
-    width: '100%', height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.9)',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgb(0, 0, 0)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -329,8 +414,8 @@ const styles = {
     fontFamily: "'Press Start 2P'",
   },
   card: {
-    background: '#111',
-    border: '4px solid #FFD700',
+    background: '#000000',
+    border: '4px solid rgba(0, 136, 43, 0.46)',
     padding: 20,
     borderRadius: 12,
     textAlign: 'center',
@@ -360,7 +445,7 @@ const styles = {
     textAlign: 'center',
   },
   submitBtn: {
-    marginTop: 10,
+    marginTop: '10px',
     padding: '10px 20px',
     fontSize: '0.75rem',
     fontFamily: "'Press Start 2P'",
